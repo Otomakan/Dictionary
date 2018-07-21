@@ -1,5 +1,13 @@
 # README
 
+To setup :
+
+gem install foreman
+bundle install
+
+foreman start
+
+MongoID cheatsheet: https://docs.mongodb.com/mongoid/master/tutorials/mongoid-queries/
 This README would normally document whatever steps are necessary to get the
 application up and running.
 
