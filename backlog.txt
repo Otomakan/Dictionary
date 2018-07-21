@@ -63,3 +63,10 @@ Running via Spring preloader in process 35487
       create    app/assets/stylesheets/scaffolds.scss
 Added 
 protect_from_forgery with: :exception to application controller
+
+
+There are two Ways of building the app, might create two branches, one way is to have a bunch of components manages by the ujs driver.
+The other way is to have a single page application and make api calls using axios/fetch
+I am not sure how option 1 will work with redux, the routing probably stil, has to be managed by rails. 
+
+Thing to keep in mind, the data fetching method also has to allow for control. This means that not anyone can make the api all just by looking at the js. 
