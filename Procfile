@@ -1,3 +1,4 @@
 
-webpacker: ./bin/webpack-dev-server
+
 rails: rails server
+react-app: cd frontend && yarn start
