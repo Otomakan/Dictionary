@@ -1,0 +1,26 @@
+Initiated the project with rails new myapp --webpack=react
+Added a components folder to app/javascript
+gem install foreman
+Created a Procfile foreman start and it will run on port 5100 or set -p 3000
+rails generate controller Pages home help
+Deleting all traces of Active record
+Delete rails/all in application.rb
+commented out config/environment/development.rb line 33:    # config.active_storage.service = :local
+line 44
+IN app/javascript/applications.js deleted: 
+//= require activestorage
+deleted content of app/javascript/cable.js
+// Action Cable provides the framework to deal with WebSockets in Rails.
+// You can generate new channels where WebSocket features live using the `rails generate channel` command.
+//
+//= require action_cable
+//= require_self
+//= require_tree ./channels
+
+(function() {
+  this.App || (this.App = {});
+
+  App.cable = ActionCable.createConsumer();
+
+}).call(this);
+
