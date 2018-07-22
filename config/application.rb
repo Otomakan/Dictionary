@@ -30,7 +30,7 @@ class Application < Rails::Application
 	# Setup CORS to allow communciation with REACT app
 	config.middleware.insert_before 0, Rack::Cors do
       allow do
-        origins 'localhost:5000'
+        origins 'localhost:5100'
         resource '*', headers: :any, methods: [:get, :post]
       end
     end

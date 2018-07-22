@@ -85,4 +85,6 @@ Look into access control https://github.com/chaps-io/access-granted. Careful thi
 
 Now the biggest question is how to do user authentification
 
-We need a way to manage JWT tokens whih is shared between the react app and the rails server
+We need a way to manage JWT tokens which is shared between the react app and the rails server
+
+Removed sass rails gem coffee rails and turbolinks
