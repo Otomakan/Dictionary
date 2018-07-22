@@ -7,6 +7,8 @@ bundle install
 
 foreman start
 
+Sometimes spring messes up to compilation. So run spring stop in your prompt
+
 MongoID cheatsheet: https://docs.mongodb.com/mongoid/master/tutorials/mongoid-queries/
 This README would normally document whatever steps are necessary to get the
 application up and running.

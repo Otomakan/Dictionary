@@ -70,3 +70,21 @@ The other way is to have a single page application and make api calls using axio
 I am not sure how option 1 will work with redux, the routing probably stil, has to be managed by rails. 
 
 Thing to keep in mind, the data fetching method also has to allow for control. This means that not anyone can make the api all just by looking at the js. 
+
+One the test branch:
+Seprating the logic, using create react app to create a standalone react app which will make calls to the rails server. 
+Deleted references to webpackers, and yarn.
+deleting gems
+
+Installed rack CORS gem 
+and setup in application.rb
+
+Should I seup the app to be api only? http://edgeguides.rubyonrails.org/api_app.html
+
+Look into access control https://github.com/chaps-io/access-granted. Careful this uses activerecors so might not work with MongoID
+
+Now the biggest question is how to do user authentification
+
+We need a way to manage JWT tokens which is shared between the react app and the rails server
+
+Removed sass rails gem coffee rails and turbolinks
