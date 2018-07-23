@@ -5,6 +5,7 @@ class AuthApiCalls
 	def initialize(headers={})
 		@headers = headers
 	end
+
 	def call
 		user
 	end
@@ -12,8 +13,24 @@ class AuthApiCalls
 	private
 
 	attr_reader :headers
+
+	def user
+		puts "class is"
+		puts decoded_token.class
+		if decoded_token
+			authed_user = User.find(decoded_token["user_id"]["$oid"]) 
+			if authed_user
+				@user = authed_user
+			else
+				@user = errors.add(:token, "invalid token")
+			end
+		else
+			@user || errors.add(:token, "invalid token") && nil
+		end
+	end
+
 	def decoded_token
-		JWTdecode(auth_header)
+		@decoded_token ||= JWTdecode(auth_header)
 	end
 	def auth_header
 		if headers['Authorization'].present?
@@ -22,9 +39,5 @@ class AuthApiCalls
       		errors.add(:token, 'Missing token')
     	end
    		return nil
-	end
-	def user
-		@user ||= User.find_by({name: decoded_token[:name]}) if decoded_token
-		@user || errors.add(:token, "invalid token") && nil
 	end
 end

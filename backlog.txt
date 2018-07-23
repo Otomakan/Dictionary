@@ -96,3 +96,9 @@ Added: protect_from_forgery with: :null_session to Application
 Installed two more gems JWT and simple command
 
 Create a command to authenticate users
+
+check if it safe creating a token using the user's password
+
+Moved
+
+Looks like I avoided a shitty unsecure feature of MongoID when you do find_by and enter a wrong key then nil, you get a result back

@@ -2,3 +2,5 @@
 [] See if XSRF rotection is enough when combining the ruby application protector to the react
 
 [] Delete everything related to webpacker and javascript (in application.html.erb and assets folder)
+
+[] Reorganize the controllers so that all ensitive assets are checked for tokens and the user login and creation isn't

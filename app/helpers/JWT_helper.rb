@@ -5,9 +5,14 @@ module JWTHelper
    end
 
    def JWTdecode(token)
-     body = JWT.decode(token, Rails.application.credentials.secret_key_base)[0]
-     HashWithIndifferentAccess.new body
+     JWT.decode(token, Rails.application.credentials.secret_key_base)[0]
+     # puts "IN JWT decode"
+     # puts "THE HASH"
+     # puts HashWithIndifferentAccess.new(body)
+     # puts format(body)
+     # format(body)
    rescue
      nil
    end
+  
 end
