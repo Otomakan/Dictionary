@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  include UsersHelper
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   # GET /users
@@ -30,17 +31,27 @@ class UsersController < ApplicationController
   # POST /users.json
   def create
     @user = User.new(user_params)
-
-    respond_to do |format|
-      if @user.save
-        format.html { redirect_to @user, notice: 'User was successfully created.' }
-        format.json { render :show, status: :created, location: @user }
-      else
-        format.html { render :new }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
-      end
+    puts "User params is:"
+    puts user_params
+    puts "Request object is:"
+    puts request
+    # respond_to do |format|
+    if @user.save
+      res_json({status: "200", success:"Yay it worked", user: @user})
+    else
+      res_json({status:"404", error_message: @user.errors.messages.to_json() })    #   end
     end
   end
+
+  def authenticate
+    command = AuthenticateUser.call(user_params[:email], user_params[:password])
+
+   if command.success?
+     render json: { auth_token: command.result }
+   else
+     render json: { error: command.errors }, status: :unauthorized
+   end
+ end
 
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json

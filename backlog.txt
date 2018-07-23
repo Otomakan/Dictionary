@@ -86,3 +86,13 @@ Look into access control https://github.com/chaps-io/access-granted. Careful thi
 Now the biggest question is how to do user authentification
 
 We need a way to manage JWT tokens whih is shared between the react app and the rails server
+
+Transformed Rails into an API by follwoing instructions on their website. 
+
+Reactivate bcrypt to use has_secure_password
+
+Added: protect_from_forgery with: :null_session to Application 
+
+Installed two more gems JWT and simple command
+
+Create a command to authenticate users

@@ -19,8 +19,11 @@ Bundler.require(*Rails.groups)
 
 class Application < Rails::Application
 	# Initialize configuration defaults for originally generated Rails version.
+	
 	config.load_defaults 5.2
+	config.api_only = true
 
+	
 
 	# Settings in config/environments/* take precedence over those specified here.
 	# Application configuration can go into files in config/initializers
@@ -30,7 +33,7 @@ class Application < Rails::Application
 	# Setup CORS to allow communciation with REACT app
 	config.middleware.insert_before 0, Rack::Cors do
       allow do
-        origins 'localhost:5000'
+        origins 'localhost:5100'
         resource '*', headers: :any, methods: [:get, :post]
       end
     end
