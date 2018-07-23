@@ -15,9 +15,11 @@ class SignUp extends Component {
 	  	name: "",
 	  	email:"",
 	  	password:"",
+	  	response:""
 	  };
 	  this.handleInputChange = this.handleInputChange.bind(this)
 	}
+
 	handleInputChange(e){
 		const target = e.target;
 	    const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -27,6 +29,7 @@ class SignUp extends Component {
 			[name]: value,
 		})
 	}
+
 	handleSubmit(){
 		fetch('http://localhost:5000/users.json',{
 			method:'post',
@@ -37,7 +40,8 @@ class SignUp extends Component {
 			body:
 				JSON.stringify({
 					name: this.state.name,
-					email: this.state.email					
+					email: this.state.email,
+					password: this.state.password			
 				})
 			
 		})
@@ -94,7 +98,9 @@ class SignUp extends Component {
 			        label="Password"
 			        type="password"
 			        autoComplete="current-password"
+			        name="password"
 			        className={classes.textField}
+			        onChange={this.handleInputChange}
 			        margin="normal"
 			       />
 			    <Button onClick={this.handleSubmit.bind(this)}> Sign Up !</Button>

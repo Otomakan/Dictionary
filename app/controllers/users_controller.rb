@@ -31,7 +31,7 @@ class UsersController < ApplicationController
   # POST /users.json
   def create
     @user = User.new(user_params)
-    puts "User params is:"
+    puts "User params is:FUcke"
     puts user_params
     puts "Request object is:"
     puts request
@@ -43,15 +43,7 @@ class UsersController < ApplicationController
     end
   end
 
-  def authenticate
-    command = AuthenticateUser.call(user_params[:email], user_params[:password])
 
-   if command.success?
-     render json: { auth_token: command.result }
-   else
-     render json: { error: command.errors }, status: :unauthorized
-   end
- end
 
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
@@ -80,11 +72,12 @@ class UsersController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
+      puts"Seraching"
       @user = User.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:name, :email)
+      params.require(:user).permit(:name, :email, :password)
     end
 end
