@@ -85,6 +85,31 @@ Look into access control https://github.com/chaps-io/access-granted. Careful thi
 
 Now the biggest question is how to do user authentification
 
-We need a way to manage JWT tokens which is shared between the react app and the rails server
+
 
 Removed sass rails gem coffee rails and turbolinks
+
+We need a way to manage JWT tokens whih is shared between the react app and the rails server
+
+Transformed Rails into an API by follwoing instructions on their website. 
+
+Reactivate bcrypt to use has_secure_password
+
+Added: protect_from_forgery with: :null_session to Application 
+
+Installed two more gems JWT and simple command
+
+Create a command to authenticate users
+
+check if it safe creating a token using the user's password
+
+Moved
+
+Looks like I avoided a shitty unsecure feature of MongoID when you do find_by and enter a wrong key then nil, you get a result back
+
+Look at JWT alternatives
+
+Think about using https://api.rubyonrails.org/v5.2/classes/ActiveSupport/MessageEncryptor.html
+
+Should we go back to a sql table? 
+I am starting to think that we can just have decks with references to other decks and flashcards.

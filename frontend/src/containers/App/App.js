@@ -1,54 +1,51 @@
+<<<<<<< HEAD
 import React, { Component } from 'react';
 import {connect} from 'react-redux'
 import Button from '@material-ui/core/Button';
 import { simpleAction } from '../../actions/simpleAction'
+import { Switch, Route } from 'react-router-dom'
+import LoggedOutRoute from '../LoggedOut/LoggedOutRoute.js'
+import LoggedInRoute from '../LoggedIn/LoggedInRoute.js'
+import Cookies from 'universal-cookie'
 
-const mapStateToProps = state => ({
- ...state
-})
-const mapDispatchToProps = dispatch => ({
- simpleAction: () => dispatch(simpleAction())
-})
+const cookies = new Cookies()
 
 
 
 class App extends Component {
-    getUserData(){
-    return fetch(`http://localhost:5000/users.json`)
-      .then(res => {
-        return res.json()
-      }).then(res=>{
-        console.log(res)
-      })
+  constructor(props) {
+    super(props)
+    this.state = {
+      loggedIn: this.props.cookieStatus,
+      username: ""
+    }
   }
-  componentDidMount() {
-    this.getUserData()
-    console.log(this.props)
 
-  }
-  simpleAction (event) {
-    this.props.simpleAction();
-    console.log(this.props)
-  }
+
+
   render() {
     return (
       <div className="App">
-      <pre>
- {
-  JSON.stringify(this.props)
- }
-</pre>
-        <header className="App-header">
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-        <Button variant="contained" color="primary">Press</Button>
-        <button onClick={this.simpleAction.bind(this)}>Test redux action</button>
+       <Switch>
+        <WhichRoute loggedIn={this.state.loggedIn}/>
+       </Switch >
       </div>
-    );
+    )
+
   }
 }
+const WhichRoute = (props) =>
+  props.loggedIn
+  ? <Route path="/" component={LoggedInRoute}/>
+  : <Route path="/" component={LoggedOutRoute}/>
 
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+
+{/*const PrivateRoute = (component: Component, ...rest) =>(
+    <Route (...rest) render={(props)=>(
+      isAuthenticated ===true
+      ? <Component {...props}
+      : <Redirect to="/login"/>
+    )}/>
+  )*/}
+
+export default App;
