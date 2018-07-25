@@ -2,6 +2,9 @@ import React, {Component} from 'react'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import { withStyles } from '@material-ui/core/styles';
+import Cookies from 'universal-cookie'
+
+const cookies = new Cookies()
 
 class LogIn extends Component {
 	constructor(props) {
@@ -11,6 +14,7 @@ class LogIn extends Component {
 	  	email:"",
 	  	password:"",
 	  	token:"",
+	  	errors:[],
 	  };
 	  this.handleInputChange = this.handleInputChange.bind(this)
 	}
@@ -30,10 +34,18 @@ class LogIn extends Component {
 		})
 		.then((res)=>res.json())
 		.then((res)=>{
-			console.log(res)
+			console.log(res.status)
+			if(res.status=="200")
+				cookies.set('JWT_Token_Dic',res.auth_token)
+			else
+				this.setState({
+					errors: this.state.errors.concat("an error occured")
+				})
 		})
 		.catch((err)=>{
-			console.log(err)
+			this.setState({
+					errors: this.state.errors.concat(String(err))
+				})
 		})
 	}
 	checkToken(){
@@ -53,9 +65,22 @@ class LogIn extends Component {
 			[name]: val,
 		})
 	}
+	getDeck(){
+		fetch("http://localhost:5000/decks",
+			{
+				headers: {
+					'Authorization': cookies.get('JWT_Token_Dic')
+				}
+			})
+		.then((res)=> res.json())
+		.then((res)=> {console.log(res)})
+		.catch((err)=> {console.log(err)})
+	}
 	render(){
 		const  { classes } = this.props
 		return (
+			<div>
+			<Errors errors={this.state.errors}/>
 			<form>
 			<TextField 
 					  id="name"
@@ -84,10 +109,18 @@ class LogIn extends Component {
 				/>
 			<Button onClick={this.checkToken.bind(this)}> CheckToken </Button>
 		</form>
+			<Button onClick={this.getDeck.bind(this)}> GET DECK</Button>
+		</div>
 		)
 	}
 }
 
+const Errors = (props) =>{
+	if( props.errors.length>0)
+		return(<h3> {props.errors[0]}</h3>)
+	else 
+		return(<div></div>)
+}
 
 const styles = theme => ({
   container: {
