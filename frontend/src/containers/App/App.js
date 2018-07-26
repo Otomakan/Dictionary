@@ -2,12 +2,7 @@
 import React, { Component } from 'react'
 
 import {connect} from 'react-redux'
-
-
 import history from '../../helpers/history.js'
-
-import Button from '@material-ui/core/Button'
-
 
 import { Switch, Route } from 'react-router-dom'
 import LoggedOutRoute from '../LoggedOut/LoggedOutRoute.js'

@@ -1,7 +1,6 @@
 import { combineReducers } from 'redux'
-import simpleReducer from './simpleReducer'
-import fetchUserReducer from './fetchUserReducer'
+import authReducer from './authReducer'
 
 export default  combineReducers({
-	simpleReducer
+	authReducer
 })

@@ -1,9 +1,5 @@
 import { userConstants } from '../actions/userActions.js';
-import Cookies from 'universal-cookie'
 
-const cookies = new Cookies()
- 
-let token = cookies.get("JWT_Token_Dic")
 // const initialState = token ? { loggedIn: true, user } : {};
  
 function authentication(state = {}, action) {
