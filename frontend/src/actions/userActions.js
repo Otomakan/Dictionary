@@ -1,6 +1,7 @@
 import userServices from '../services/userServices'
 import history from '../helpers/history.js'
 
+
  const userConstants = {
     REGISTER_REQUEST: 'USERS_REGISTER_REQUEST',
     REGISTER_SUCCESS: 'USERS_REGISTER_SUCCESS',
@@ -29,17 +30,29 @@ const userActions = {
 
 function login(name, password) {
     return dispatch => {
-        console.log(userServices)
         dispatch(request({name}))
         userServices.login(name, password)
         .then(
             user=>{
-                dispatch(success(user))
+                console.log(user)
+                dispatch(success(user.name))
                 history.push('/')
-            }),
+            })
+        .catch(
             err=>{
-                dispatch(failure(err.toString()))
-            }
+                if(typeof err.then === "function")
+                    err.then(err=>{
+                        //API returns an object which wewant to convert to an array so we can better display errors
+                        var errarray = Object.keys(err.error).reduce((prev, curr,index)=>{
+                            prev.push(err.error[curr])
+                            return prev
+                        },[])
+                        dispatch(failure(errarray))
+                    })
+                else
+                    dispatch(failure(err.toString()))
+                }       
+            )
     }
     function request(name) { return { type: userConstants.LOGIN_REQUEST, name } }
     function success(name) { return { type: userConstants.LOGIN_SUCCESS, name } }
@@ -52,28 +65,38 @@ function logout() {
     return {type:userConstants.LOGOUT}
 }
 
-function checktoken(token){
-    console.log("in check token")
-    console.log(token)
+function checktoken(){
     return dispatch =>{
+        //Function checks if theJWT token exist and if so it returns it
+        const token = userServices.getToken()
         if(!token){
             dispatch(failure("No token"))
         }
         else{
-            dispatch(request(token))
+            dispatch(request('To change'))
+            // Using the checktoken service function to check the token's validity
             userServices.checktoken(token)
             .then((user)=>{
-                dispatch(success(user))
+                dispatch(success(user.name))
             })
-            .catch()
+            .catch(err=>{
+                if(typeof err.then === "function"){
+                    err.then(err=>{
+                     dispatch(failure(err.error))
+                })
+                }
+                else
+                    dispatch(failure(err))
+               
+            })
             }
-
-
     }
     function request(token) { return { type: userConstants.CHECK_TOKEN_REQUEST, token } }
-    function success(token) { return { type: userConstants.LOGIN_SUCCESS, token } }
-    function failure(error) { return { type: userConstants.LOGIN_FAILURE, error } }
-
+    function success(name) { return { type: userConstants.CHECK_TOKEN_SUCCESS, name } }
+    function failure(error) { return { type: userConstants.CHECK_TOKEN_FAILURE, error } }
 }
+
+
+
 export { userConstants } 
 export default userActions

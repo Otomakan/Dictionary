@@ -4,11 +4,11 @@ const cookies = new Cookies()
 const userServices ={
 	login,
 	logout,
-	checktoken}
+	checktoken,
+	getToken,}
 export default userServices
 
 function login(name, password) {
-	console.log(name, password)
 	return fetch('http://localhost:5000/authenticate',{
 			method:"post",
 			headers: {
@@ -22,41 +22,53 @@ function login(name, password) {
 				})
 			
 		})
-	.then(res=>res.json())
 	.then(res=>{
-		if(res.status="404")
-			console.log("Authenticated!")
-			console.log(res)
-			cookies.set('JWT_Token_Dic',res.auth_token)
-			return res
+		if (res.status === 200){
+			return res.json()
+		} 
+		else
+			throw res.json()
 	})
-	.catch(err=>err)
+	.then(res=>{
+		console.log("Authenticated!")
+		console.log(res)
+		cookies.set('JWT_Token_Dic',res.auth_token)
+		return res
+		
+	})
+	.catch(err=> {throw err})
 }
 
 function logout(){
-	console.log("logging out")
 	cookies.remove('JWT_Token_Dic')
 }
 
-function checktoken(token){
-	console.log("In userServices")
-	console.log(token)
-	if (!token){
-		throw new Error 
-	}
-	else{
-		return fetch("http://localhost:5000/checktoken", {
-			method:"post",
-			headers: {
-				// Get the authprization header
-				'Authorization': cookies.get('JWT_Token_Dic')
-			}
-			})
-			// Turn the response into json format
-			.then(res=>res.json())
-			.then(res=>{
-				return res
-			})
-			
+
+function checktoken(cookie){
+	return fetch("http://localhost:5000/checktoken", {
+		method:"post",
+		headers: {
+			// Get the authprization header
+			'Authorization': cookie
 		}
+		})
+		// Turn the response into json format
+		.then(res=>{
+			console.log(res)
+			if (res.status === 200){
+				return res.json()
+			} 
+			else
+				throw res
+		})	
+		.then(res=>{return res})
+		.catch(err=>{throw err.json()})
+}
+
+function getToken(){
+	const token = cookies.get('JWT_Token_Dic')
+	if (token)
+		return token
+	else
+		return 
 }

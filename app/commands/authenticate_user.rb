@@ -9,6 +9,7 @@ class AuthenticateUser
     @password = password
   end
 
+
   def call
     if user
       JWTencode({user_id: user.id, exp: 24.hours.from_now.to_i})

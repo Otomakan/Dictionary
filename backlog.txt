@@ -113,3 +113,9 @@ Think about using https://api.rubyonrails.org/v5.2/classes/ActiveSupport/Message
 
 Should we go back to a sql table? 
 I am starting to think that we can just have decks with references to other decks and flashcards.
+
+Finished most of the logic for the redux, finally got a grip over Redux (sort of)
+Drop the styling using JSS and started using a SCC preprocessor
+
+Created new action for the signup
+

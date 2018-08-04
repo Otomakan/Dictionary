@@ -1,12 +1,14 @@
 import React, {Component} from 'react'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
-import { withStyles } from '@material-ui/core/styles';
 // import SignUpForm from '../../../components'
 
+import {connect} from 'react-redux'
+import signup from '../../../actions/signUpActions.js'
 
 
-class SignUp extends Component {
+
+class SignUpComponent extends Component {
 
 	constructor(props) {
 	  super(props);
@@ -21,66 +23,28 @@ class SignUp extends Component {
 	}
 
 	handleInputChange(e){
-		const target = e.target;
-	    const value = target.type === 'checkbox' ? target.checked : target.value;
-	    const name = target.name;
-	    console.log(name)
+		const target = e.target
+	    const value = target.value
+	    const name = target.name
 		this.setState({
 			[name]: value,
 		})
 	}
 
 	handleSubmit(){
-		fetch('http://localhost:5000/users.json',{
-			method:'post',
-			headers: {
-				Accept:'application/json',
-				'Content-Type':'application/json'
-			},
-			body:
-				JSON.stringify({
-					name: this.state.name,
-					email: this.state.email,
-					password: this.state.password			
-				})
-			
-		})
-		.then((res)=>res.json())
-		.then((res)=>{
-			this.setState({
-				response: "Success"
-			})
-			console.log(res)
-		})
-		.catch((err)=>{
-			this.setState({
-				response: "There was an error"
-			})
-			console.log(err)
-		})
-		
-		//try to write it with ES6 async function
-		// try{
-		// 	let res = await fetch('http://localhost:5000/users/new',{
-		// 	method:'post'
-		// })
-		// 	let resJson = await res.json()
-		// 	this.setState({
-		// 		response: "Success"
-		// 	})
-		// }
-		// ca
+		const {name, email, password} = this.state
+		this.props.dispatch(signup(name, email, password))
+	
 	}
 	render(){
-		const {classes} = this.props
 		return (
-			<form className={classes.container} onSubmit={this.handleSubmit}>
+			<form className="signup-form" onSubmit={this.handleSubmit}>
 				<TextField 
 					  id="name"
 			          label="Name"
 			          name="name"
 			          value={this.state.name}
-			          className={classes.textField}
+			          className='text-field'
 			          onChange={this.handleInputChange}
 			          margin="normal"
 			          />
@@ -89,7 +53,7 @@ class SignUp extends Component {
 			     		label="Email"
 			     		name="email"
 			     		value={this.state.email}
-			     		className={classes.textField}
+			     		className='text-field'
 			     		onChange={this.handleInputChange}
 			     		/>
 
@@ -99,7 +63,7 @@ class SignUp extends Component {
 			        type="password"
 			        autoComplete="current-password"
 			        name="password"
-			        className={classes.textField}
+			        className="text-field"
 			        onChange={this.handleInputChange}
 			        margin="normal"
 			       />
@@ -109,19 +73,9 @@ class SignUp extends Component {
 	}
 }
 
-const styles = theme => ({
-  container: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width: 200,
-  },
-  menu: {
-    width: 200,
-  },
-});
+function mapStateToProps(state) {
+    return state
 
-export default withStyles(styles)(SignUp)
+}
+const SignUp = connect(mapStateToProps)(SignUpComponent)
+export default SignUp

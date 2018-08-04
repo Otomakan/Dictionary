@@ -12,7 +12,7 @@ import { createLogger } from 'redux-logger'
 import rootReducer from './reducers/rootReducer'
 import { Provider } from 'react-redux'
 
-const loggerMiddleware = createLogger();
+const loggerMiddleware = createLogger()
  
 const store = createStore(
     rootReducer,

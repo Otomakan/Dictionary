@@ -31,10 +31,6 @@ class UsersController < ApplicationController
   # POST /users.json
   def create
     @user = User.new(user_params)
-    puts "User params is:FUcke"
-    puts user_params
-    puts "Request object is:"
-    puts request
     # respond_to do |format|
     if @user.save
       res_json({status: "200", success:"Yay it worked", user: @user})
@@ -72,7 +68,6 @@ class UsersController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
-      puts"Seraching"
       @user = User.find(params[:id])
     end
 

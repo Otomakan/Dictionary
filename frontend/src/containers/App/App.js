@@ -7,58 +7,51 @@ import history from '../../helpers/history.js'
 import { Switch, Route } from 'react-router-dom'
 import LoggedOutRoute from '../LoggedOut/LoggedOutRoute.js'
 import LoggedInRoute from '../LoggedIn/LoggedInRoute.js'
-import Cookies from 'universal-cookie'
 import userActions from '../../actions/userActions'
+import NavigationBar from './NavBar/NavBar.js'
+import './App.css'
 
-const cookies = new Cookies()
 
 class AppFrame extends Component {
   constructor(props) {
     super(props)
- 
-
-
     history.listen((location, action) => {
-          //   // clear alert on location change
-          // dispatch(alertActions.clear());
-          //We are listenting to any change of history, at every change  we will check the state  of the cookies
-          console.log(action, location.pathname, location.state)
-          // this.setState({
-          //   loggedIn: this.props
-          // })
+      console.log('')
       })
     const {dispatch} = this.props
-    dispatch(userActions.checktoken(cookies.get('JWT_Token_Dic')))
-    console.log("LOgged in is set to")
+    dispatch(userActions.checktoken())
+    console.log("Logged in is set to")
     console.log(props)
   }
 
-  render() {
-    return (
-      <div className="App">
-       <Switch>
-        <WhichRoute loggedIn={this.props.loggedIn}/>
-       </Switch >
-      </div>
-    )
 
+  render() {
+    const {loggedIn} = this.props.authReducer
+    return(
+      <div className="App">
+       <NavigationBar loggedIn={loggedIn}/>
+          <div className="main-container">
+         <Switch>
+            {loggedIn
+  ? <Route  history={this.props.history} path="/" component={LoggedInRoute}/>
+  : <Route  location={this.props.history.location} path="/" component={LoggedOutRoute}/>}
+         </Switch >
+          </div>
+      </div>
+      )
+      
   }
 }
 
-//This object redirect the user to the login route if the loggedin redux object is set to true and inversely to the logout route
-const WhichRoute = (props) =>
-  props.loggedIn
-  ? <Route history={history} path="/" component={LoggedInRoute}/>
-  : <Route history={history} path="/" component={LoggedOutRoute}/>
+//This object redirects the user to the login route if the loggedin redux object is set to true and inversely to the logout route
+// const WhichRoute = (props) =>
+
 
 
 function mapStateToProps(state) {
-    // const alert = state;
-    console.log(state)
-    return state.authReducer
+    return state
 
 }
-
 
 const App = connect(mapStateToProps)(AppFrame)
 export default App

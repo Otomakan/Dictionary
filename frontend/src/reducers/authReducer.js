@@ -2,29 +2,55 @@ import { userConstants } from '../actions/userActions.js';
 
 // const initialState = token ? { loggedIn: true, user } : {};
  
-function authentication(state = {}, action) {
+function authentication(state = {loggedIn:false,isLoading:true, name:null, loginErrors:[]}, action) {
   switch (action.type) {
     case userConstants.LOGIN_REQUEST:
       return {
-        loggingIn: true,
-        user: action.token
+        isLoading: true,
+        loggedIn:false,
+
       }
     case userConstants.LOGIN_SUCCESS:
       return {
+        isLoading: false,
         loggedIn: true,
-        user: action.token
+        name:action.name,
       }
     case userConstants.LOGIN_FAILURE:
-      return {}
+      return {
+        isLoading: false,
+        loggedIn: false,
+        loginErrors: action.error,
+      }
     case userConstants.LOGOUT:
       return {
-        loggedIn: false
+        isLoading: false,
+        loggedIn: false,
+        name: null,
       }
     case userConstants.CHECK_TOKEN_REQUEST:
       return {
         checkingToken: true,
-        user: action.token
+        isLoading:true,
+        loggedIn:false,
       }
+    case userConstants.CHECK_TOKEN_SUCCESS:
+      return {
+        checkingToken: false,
+        isLoading:false,
+        tokenErrors: action.error,
+        loggedIn: true,
+        name:action.name,
+      }
+    case userConstants.CHECK_TOKEN_FAILURE:
+      return {
+        checkingToken: false,
+        isLoading:false,
+        tokenErrors:action.error,
+        loggedIn:false,
+        loginErrors:[],
+      }
+
 
     default:
       return state

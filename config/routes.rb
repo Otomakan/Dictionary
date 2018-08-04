@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   post 'users.json', to: "users#create"
   post 'authenticate', to: "auth#authenticate"
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-  get 'decks', to: 'decks#show'
+  
   post 'checktoken', to: 'auth#checktoken'
+  get 'decks/showall', to: 'decks#show'
+  post 'decks/create', to:'decks#create'
 end

@@ -4,15 +4,15 @@ import SignUp from './SignUp/SignUp.js'
 import LogIn from './LogIn/LogIn.js'
 import Home from './Home/Home.js'
 import NoMatch from './NoMatch.js'
+import LoadingBar from '../../components/LoadingBar'
+import {connect} from 'react-redux'
 
-class LoggedOutRoute extends Component {
-	constructor(props) {
-		super(props)
-	}
-
+class LoggedOutRouteFrame extends Component {
 	render(){
-		return(
-			<Switch>
+		const {isLoading} = this.props.authReducer
+		return isLoading
+		? <LoadingBar/>
+		: (<Switch>
 				<Route exact path="/" component={Home} />
 		        <Route path="/signup" component={SignUp} />
 		        <Route path="/login" component={LogIn} />
@@ -21,5 +21,10 @@ class LoggedOutRoute extends Component {
 			)
 	}
 }
+function mapStateToProps(state) {
+    return state
 
+}
+
+const LoggedOutRoute = connect(mapStateToProps)(LoggedOutRouteFrame)
 export default LoggedOutRoute
