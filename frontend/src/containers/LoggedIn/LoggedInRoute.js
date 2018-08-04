@@ -6,7 +6,7 @@ import {connect} from 'react-redux'
 import LoadingBar from '../../components/LoadingBar.js'
 import ShowDecks from './ShowDecks/ShowDecks.js'
 import ShowDeck from '../../containers/LoggedIn/ShowDecks/ShowDeck.js'
-
+import { withRouter } from 'react-router-dom'
 import DashBoard from './Dashboard/Dashboard.js'
 
 
@@ -43,7 +43,7 @@ function mapStateToProps(state){
 	return state
 }
 
-const LoggedInRoute = connect(mapStateToProps)(LoggedInRouteComponent)
+const LoggedInRoute = withRouter(connect(mapStateToProps)(LoggedInRouteComponent))
 
 
 export default LoggedInRoute

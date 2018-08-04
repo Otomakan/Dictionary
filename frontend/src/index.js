@@ -5,12 +5,13 @@ import './index.css';
 import App from './containers/App/App.js';
 import registerServiceWorker from './registerServiceWorker';
 
-import {BrowserRouter} from 'react-router-dom' 
+import {Router} from 'react-router-dom' 
 import { createStore, applyMiddleware } from 'redux'
 import thunkMiddleware from 'redux-thunk'
 import { createLogger } from 'redux-logger'
 import rootReducer from './reducers/rootReducer'
 import { Provider } from 'react-redux'
+import history from './helpers/history.js'
 
 const loggerMiddleware = createLogger()
  
@@ -27,9 +28,9 @@ const store = createStore(
 		//When all the fetching is done then render the app.
 ReactDOM.render(
 <Provider store={store}>
-	<BrowserRouter>
+	<Router history={history}>
 		<App />
-	</BrowserRouter>
+	</Router>
 </Provider>, document.getElementById('root'));
 registerServiceWorker();
 

@@ -119,3 +119,5 @@ Drop the styling using JSS and started using a SCC preprocessor
 
 Created new action for the signup
 
+
+Finnaly solved the nested route problem, there is a problem of integration between React-router and Redux {connect}, so you have to use {withRouter} in order to have the location pathname updated everywhere. 

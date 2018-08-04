@@ -1,7 +1,6 @@
 import React,{Component} from 'react'
 import {Link, Route} from 'react-router-dom'
 import history from '../../helpers/history.js'
-import ShowDeck from '../../containers/LoggedIn/ShowDecks/ShowDeck.js'
 
 export default class ShowDecks extends Component{
 	constructor(props) {
@@ -9,6 +8,11 @@ export default class ShowDecks extends Component{
 		console.log(props)
 	  this.state = {};
 	  this.props.showall()
+	  this.updateContext = this.updateContext.bind(this)
+	}
+
+	updateContext(){
+		console.log(history)
 	}
 
 	render(){
@@ -22,7 +26,7 @@ export default class ShowDecks extends Component{
 			{this.props.decks.map((deck,key)=>{
 				let url = 'showdecks/' + deck._id.$oid
 				return <div key={key}>
-				<Link to={url}>
+				<Link onClick={()=>{this.updateContext()}} to={url}>
 				<p> {deck.title}</p>
 				</Link>
 				

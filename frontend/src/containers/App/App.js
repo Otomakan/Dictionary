@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import history from '../../helpers/history.js'
 
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, withRouter } from 'react-router-dom'
 import LoggedOutRoute from '../LoggedOut/LoggedOutRoute.js'
 import LoggedInRoute from '../LoggedIn/LoggedInRoute.js'
 import userActions from '../../actions/userActions'
@@ -16,7 +16,8 @@ class AppFrame extends Component {
   constructor(props) {
     super(props)
     history.listen((location, action) => {
-      console.log('')
+      console.log("History in the making")
+      this.forceUpdate()
       })
     const {dispatch} = this.props
     dispatch(userActions.checktoken())
@@ -33,8 +34,8 @@ class AppFrame extends Component {
           <div className="main-container">
          <Switch>
             {loggedIn
-  ? <Route  history={this.props.history} path="/" component={LoggedInRoute}/>
-  : <Route  location={this.props.history.location} path="/" component={LoggedOutRoute}/>}
+  ? <Route  history={history} location={history.location} path="/" component={LoggedInRoute}/>
+  : <Route  history={history} location={history.location} path="/" component={LoggedOutRoute}/>}
          </Switch >
           </div>
       </div>
@@ -53,5 +54,5 @@ function mapStateToProps(state) {
 
 }
 
-const App = connect(mapStateToProps)(AppFrame)
+const App = withRouter(connect(mapStateToProps)(AppFrame))
 export default App
